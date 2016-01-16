@@ -1,0 +1,33 @@
+<resources>
+
+    <string name="app_name">DBUFR</string>
+    <string name="title_activity_detail">Détails</string>
+    <string name="action_share">Partager</string>
+    <string name="action_refresh">Actualiser</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="pref_header_data_sync">Données et synchronisation</string>
+    <string name="pref_header_general">Général</string>
+    <string name="pref_summary_student_id">Entrez votre numéro étudiant</string>
+    <string name="pref_summary_student_password">Entrez votre mot de passe</string>
+    <string name="pref_title_student_id">Numéro étudiant</string>
+    <string name="pref_title_student_password">Mot de passe</string>
+    <string name="pref_title_sync_frequency">Fréquence de synchronisation</string>
+    <string name="pref_title_system_sync_settings">Paramètres de synchronisation système</string>
+    <string name="title_activity_settings">Paramètres</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 heure</item>
+        <item>3 heures</item>
+        <item>6 heures</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+</resources>

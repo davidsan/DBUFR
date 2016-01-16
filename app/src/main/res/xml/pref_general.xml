@@ -1,0 +1,27 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!-- NOTE: EditTextPreference accepts EditText attributes. -->
+    <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+    <EditTextPreference
+        android:key="@string/pref_student_id_key"
+        android:title="@string/pref_title_student_id"
+        android:summary="@string/pref_summary_student_id"
+        android:defaultValue="@string/pref_student_id_default"
+        android:selectAllOnFocus="true"
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    <EditTextPreference
+        android:key="@string/pref_student_password_key"
+        android:title="@string/pref_title_student_password"
+        android:summary="@string/pref_summary_student_password"
+        android:selectAllOnFocus="true"
+        android:inputType="textPassword"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+
+
+</PreferenceScreen>

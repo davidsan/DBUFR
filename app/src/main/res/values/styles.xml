@@ -1,0 +1,26 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/ActionBar.Solid.Dbufr</item>
+    </style>
+
+    <!-- ActionBar style -->
+    <style name="ActionBar.Solid.Dbufr"
+        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="background">@color/indigo_500</item>
+        <item name="android:icon">@drawable/ic_actionbar</item>
+    </style>
+
+    <!-- Main activity theme -->
+    <style name="DbufrTheme" parent="AppTheme">
+        <item name="actionBarStyle">@style/ActionBar.Solid.Dbufr.NoTitle</item>
+    </style>
+
+    <!-- Main activity action bar style -->
+    <style name="ActionBar.Solid.Dbufr.NoTitle"
+        parent="@style/ActionBar.Solid.Dbufr">
+        <!--<item name="displayOptions">useLogo|showHome</item>-->
+        <!--<item name="logo">@drawable/ic_logo</item>-->
+    </style>
+</resources>

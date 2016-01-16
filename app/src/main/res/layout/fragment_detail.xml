@@ -1,0 +1,106 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/indigo_500"
+    android:clickable="false">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context="com.github.davidsan.dbufr.DetailActivity.DetailFragment"
+    android:background="@color/indigo_500">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/detail_item_grade_casper_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="sans-serif-thin"
+                android:gravity="center_vertical|center_horizontal"
+                android:singleLine="false"
+                android:text="MX123"
+                android:textColor="@color/indigo_50"
+                android:textSize="56sp" />
+
+            <TextView
+                android:id="@+id/detail_item_grade_date_textview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="right|end"
+                android:text="S1 '16"
+                android:textColor="@color/indigo_300"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:orientation="horizontal">
+            <!--android:background="@drawable/rounded_corner">-->
+            <TextView
+                android:id="@+id/detail_item_grade_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:fontFamily="sans-serif-light"
+                android:singleLine="true"
+                android:text="18.25"
+                android:textColor="@color/indigo_50"
+                android:textSize="72sp"
+                android:paddingTop="16dp" />
+
+            <TextView
+                android:id="@+id/detail_item_max_grade_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-thin"
+                android:singleLine="true"
+                android:text="/20"
+                android:textColor="@color/indigo_100"
+                android:textSize="56sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="16dp"
+            android:layout_weight="0"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/detail_item_grade_type_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Note finale DBUFR première session"
+                android:textColor="@color/indigo_50"
+                android:textSize="34sp"
+                android:fontFamily="sans-serif-light" />
+
+            <TextView
+                android:id="@+id/detail_item_grade_description_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:text="Création du 14-10-2015-309"
+                android:textColor="@color/indigo_50"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-light"
+                android:paddingTop="16dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
