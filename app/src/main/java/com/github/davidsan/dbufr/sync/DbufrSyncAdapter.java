@@ -42,6 +42,11 @@ import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,11 +64,11 @@ public class DbufrSyncAdapter extends AbstractThreadedSyncAdapter {
   public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
   private static final String[] NOTIFY_GRADE_PROJECTION = new String[]{
-      GradesContract.GradesEntry.COLUMN_CASPER,
-      GradesContract.GradesEntry.COLUMN_TYPE,
-      GradesContract.GradesEntry.COLUMN_DESCRIPTION,
-      GradesContract.GradesEntry.COLUMN_GRADE,
-      GradesContract.GradesEntry.COLUMN_MAX_GRADE
+          GradesContract.GradesEntry.COLUMN_CASPER,
+          GradesContract.GradesEntry.COLUMN_TYPE,
+          GradesContract.GradesEntry.COLUMN_DESCRIPTION,
+          GradesContract.GradesEntry.COLUMN_GRADE,
+          GradesContract.GradesEntry.COLUMN_MAX_GRADE
   };
 
   private static final int INDEX_CASPER = 0;
@@ -95,7 +100,7 @@ public class DbufrSyncAdapter extends AbstractThreadedSyncAdapter {
 
     try {
       final String DBUFR_BASE_URL =
-          "https://www-dbufr.ufr-info-p6.jussieu.fr/lmd/2004/master/auths/seeStudentMarks.php";
+              "https://www-dbufr.ufr-info-p6.jussieu.fr/lmd/2004/master/auths/seeStudentMarks.php";
       //   "http://192.168.0.1:8000";
       URL url = new URL(DBUFR_BASE_URL);
 
@@ -138,8 +143,8 @@ public class DbufrSyncAdapter extends AbstractThreadedSyncAdapter {
         return;
       }
       reader =
-          new BufferedReader(
-              new InputStreamReader(inputStream, getContext().getString(R.string.dbufr_charset)));
+              new BufferedReader(
+                      new InputStreamReader(inputStream, getContext().getString(R.string.dbufr_charset)));
 
       String line;
       while ((line = reader.readLine()) != null) {
@@ -188,11 +193,11 @@ public class DbufrSyncAdapter extends AbstractThreadedSyncAdapter {
    */
   private long addCourse(String casperCode, String courseName) {
     Cursor cursor = getContext().getContentResolver().query(
-        GradesContract.CourseEntry.CONTENT_URI,
-        new String[]{GradesContract.CourseEntry._ID},
-        GradesContract.CourseEntry.COLUMN_CASPER_CODE + " = ?",
-        new String[]{casperCode},
-        null);
+            GradesContract.CourseEntry.CONTENT_URI,
+            new String[]{GradesContract.CourseEntry._ID},
+            GradesContract.CourseEntry.COLUMN_CASPER_CODE + " = ?",
+            new String[]{casperCode},
+            null);
 
     if (cursor.moveToFirst()) {
       int locationIdIndex = cursor.getColumnIndex(GradesContract.CourseEntry._ID);
@@ -207,7 +212,7 @@ public class DbufrSyncAdapter extends AbstractThreadedSyncAdapter {
       locationValues.put(GradesContract.CourseEntry.COLUMN_COURSE_NAME, courseName);
 
       Uri locationInsertUri = getContext().getContentResolver()
-          .insert(GradesContract.CourseEntry.CONTENT_URI, locationValues);
+              .insert(GradesContract.CourseEntry.CONTENT_URI, locationValues);
 
       return ContentUris.parseId(locationInsertUri);
     }
@@ -228,12 +233,16 @@ public class DbufrSyncAdapter extends AbstractThreadedSyncAdapter {
     // Pattern for splitting the html string
     final String CASPER_DATE_SPLIT = "-";
     final Pattern
-        TYPE_DESCRIPTION_PATTERN =
-        Pattern.compile(" *\\[([^\\]]*)\\] *(.*)", Pattern.DOTALL);
+            TYPE_DESCRIPTION_PATTERN =
+            Pattern.compile(" *\\[([^\\]]*)\\] *(.*)", Pattern.DOTALL);
     final String GRADE_SPLIT = "/";
 
     Elements rows = table.getElementsByTag("tr");
     Vector<ContentValues> cVVector = new Vector<ContentValues>(rows.size());
+
+    SharedPreferences prefs_param = mContext.getSharedPreferences("prefs", Context.MODE_PRIVATE);
+    boolean filtre = prefs_param.getBoolean("filtre", false);
+    Set<String> periodes = prefs_param.getStringSet("periodes", new HashSet<String>());
 
     for (Element row : rows) {
 
@@ -251,6 +260,37 @@ public class DbufrSyncAdapter extends AbstractThreadedSyncAdapter {
       String[] casperDateArray = casperDateText.split(CASPER_DATE_SPLIT);
       casperCode = casperDateArray[0];
       date = casperDateArray[casperDateArray.length - 1];
+
+      String annee = date.substring(0, 4);
+
+      SharedPreferences prefs = mContext.getSharedPreferences("prefs", Context.MODE_PRIVATE);
+      Set<String> set_years = prefs.getStringSet("list_years", new HashSet<String>());
+      List<String> list_pref_years = new ArrayList<String>(set_years);
+      if(!list_pref_years.contains(annee)) list_pref_years.add(annee);
+      Collections.sort(list_pref_years);
+      SharedPreferences.Editor editor = prefs.edit();
+      editor.putStringSet("list_years", new HashSet<String>(list_pref_years));
+      editor.apply();
+
+      if(filtre){
+
+        String semestre = (date.substring(4).equals("oct")) ? "S1" : "S2";
+        boolean goodPeriode = false;
+        String annee_per;
+        String semestre_per;
+        for(String per : periodes){
+          semestre_per = per.substring(0,2);  // S1 ou S2
+          if(semestre_per.equals("S1")) annee_per = per.substring(5,7); // Récupère annee avant le slash (exemple :  15 de 2015/16)
+          else annee_per = per.substring(8,10);
+
+          goodPeriode = (semestre_per.equals(semestre) && annee_per.equals(annee.substring(2)));
+          if(goodPeriode) break;
+        }
+        if( (periodes.isEmpty()) || !goodPeriode ){
+          continue;
+        }
+      }
+
 
       String type = "";
       String description = "";
@@ -282,9 +322,18 @@ public class DbufrSyncAdapter extends AbstractThreadedSyncAdapter {
       cVVector.add(gradeValues);
     }
     if (cVVector.size() > 0) {
+      SharedPreferences prefs = mContext.getSharedPreferences("prefs", Context.MODE_PRIVATE);
+      if(prefs.getString("hasLoad",null)==null){
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("hasLoad", "true");
+        editor.apply();
+      }
       ContentValues[] cvArray = new ContentValues[cVVector.size()];
       cVVector.toArray(cvArray);
+      getContext().getContentResolver().delete(GradesContract.GradesEntry.CONTENT_URI, null, null);
       getContext().getContentResolver().bulkInsert(GradesContract.GradesEntry.CONTENT_URI, cvArray);
+    } else {
+      getContext().getContentResolver().delete(GradesContract.GradesEntry.CONTENT_URI, null, null);
     }
     notifyGrade();
     return null;
@@ -301,11 +350,11 @@ public class DbufrSyncAdapter extends AbstractThreadedSyncAdapter {
   public static Account getSyncAccount(Context context) {
     // Get an instance of the Android account manager
     AccountManager accountManager =
-        (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
+            (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
 
     // Create the account type and default account
     Account newAccount = new Account(
-        context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
+            context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
 
     // If the password doesn't exist, the account doesn't exist
     if (null == accountManager.getPassword(newAccount)) {
@@ -323,7 +372,7 @@ public class DbufrSyncAdapter extends AbstractThreadedSyncAdapter {
   private static void onAccountCreated(Account newAccount, Context context) {
     DbufrSyncAdapter.configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
     ContentResolver
-        .setSyncAutomatically(newAccount, context.getString(R.string.content_authority), true);
+            .setSyncAutomatically(newAccount, context.getString(R.string.content_authority), true);
     syncImmediately(context);
   }
 
@@ -332,13 +381,15 @@ public class DbufrSyncAdapter extends AbstractThreadedSyncAdapter {
     String authority = context.getString(R.string.content_authority);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
       // we can enable inexact timers in our periodic sync
-      SyncRequest request = new SyncRequest.Builder().
-          syncPeriodic(syncInterval, syncFlextime).
-          setSyncAdapter(account, authority).build();
-      ContentResolver.requestSync(request);
+      try {
+        SyncRequest request = new SyncRequest.Builder().
+                syncPeriodic(syncInterval, syncFlextime).
+                setSyncAdapter(account, authority).build();
+        ContentResolver.requestSync(request);
+      } catch (Exception e){}
     } else {
       ContentResolver.addPeriodicSync(account,
-                                      authority, new Bundle(), syncInterval);
+              authority, new Bundle(), syncInterval);
     }
   }
 
@@ -352,7 +403,7 @@ public class DbufrSyncAdapter extends AbstractThreadedSyncAdapter {
     bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
     bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
     ContentResolver.requestSync(getSyncAccount(context),
-                                context.getString(R.string.content_authority), bundle);
+            context.getString(R.string.content_authority), bundle);
   }
 
   public static void initializeSyncAdapter(Context context) {
@@ -365,19 +416,17 @@ public class DbufrSyncAdapter extends AbstractThreadedSyncAdapter {
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
     String lastCountNotifiedKey = context.getString(R.string.pref_last_id_notification);
     long lastCountNotified = prefs.getLong(lastCountNotifiedKey, 0);
-
     // compute the number of rows
     String studentId = Utility.getPreferredStudentId(context);
     Uri gradeUri = GradesContract.GradesEntry.buildGradesStudentId(studentId);
-    Cursor
-        cursor =
-        context.getContentResolver().query(gradeUri,
-                                           NOTIFY_GRADE_PROJECTION,
-                                           null,
-                                           null,
-                                           null);
-    Log.d(LOG_TAG, "Number of rows : " + cursor.getCount());
-    if (cursor.getCount() > lastCountNotified) {
+    Cursor cursor = context.getContentResolver().query(gradeUri,
+            NOTIFY_GRADE_PROJECTION,
+            null,
+            null,
+            null);
+    int cpt = cursor.getCount();
+    Log.d(LOG_TAG, "Number of rows : " + cpt);
+    if (cpt > lastCountNotified) {
       if (cursor.moveToLast()) {
         String casper = cursor.getString(INDEX_CASPER);
         String type = Utility.capitalize(cursor.getString(INDEX_TYPE));
@@ -389,51 +438,52 @@ public class DbufrSyncAdapter extends AbstractThreadedSyncAdapter {
 
         // Define the text of the forecast.
         String contentText = String.format(context.getString(R.string.format_notification),
-                                           casper,
-                                           type,
-                                           description,
-                                           grade,
-                                           maxGrade);
+                casper,
+                type,
+                description,
+                grade,
+                maxGrade);
 
-        Intent
-            resultIntent = new Intent(mContext, MainActivity.class);
+        Intent resultIntent = new Intent(mContext, MainActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(mContext);
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
-            stackBuilder.getPendingIntent(
-                0,
-                PendingIntent.FLAG_UPDATE_CURRENT
-            );
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
 
         NotificationCompat.Builder mBuilder =
-            new NotificationCompat.Builder(mContext)
-                .setSmallIcon(R.drawable.ic_actionbar)
-                .setContentTitle(title)
-                .setContentText(contentText)
-                .setStyle(new NotificationCompat.BigTextStyle()
-                              .bigText(contentText))
-                .setContentIntent(resultPendingIntent);
+                new NotificationCompat.Builder(mContext)
+                        .setSmallIcon(R.drawable.ic_actionbar)
+                        .setContentTitle(title)
+                        .setContentText(contentText)
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(contentText))
+                        .setContentIntent(resultPendingIntent);
 
         Notification notification = mBuilder.build();
 
         notification.defaults |= Notification.DEFAULT_VIBRATE;
-
         // cancel notification after click
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
         // show scrolling text on status bar when notification arrives
         notification.tickerText = contentText;
 
-        NotificationManager mNotificationManager =
-            (NotificationManager) getContext()
-                .getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager mNotificationManager = (NotificationManager) getContext()
+                        .getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(DBUFR_NOTIFICATION_ID, notification);
-
-        // Refreshing number of grades
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong(lastCountNotifiedKey, cursor.getCount());
-        editor.commit();
       }
     }
+
+    if( cpt!=lastCountNotified ){
+      // Refreshing number of grades
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong(lastCountNotifiedKey, cpt);
+        editor.apply();
+    }
+
+    cursor.close();
   }
 }

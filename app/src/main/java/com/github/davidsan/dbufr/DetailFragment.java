@@ -1,9 +1,13 @@
 package com.github.davidsan.dbufr;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -18,8 +22,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.davidsan.dbufr.data.GradesContract;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -85,6 +93,7 @@ public class DetailFragment extends Fragment
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.detailfragment, menu);
     MenuItem menuItem = menu.findItem(R.id.action_share);
+      Drawable c = menuItem.getIcon();
     mShareActionProvider =
         (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
     if (mShareActionProvider != null) {
@@ -166,6 +175,7 @@ public class DetailFragment extends Fragment
       if (mShareActionProvider != null) {
         mShareActionProvider.setShareIntent(createShareGradeIntent());
       }
+
     }
   }
 

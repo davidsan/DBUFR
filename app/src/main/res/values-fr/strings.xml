@@ -2,6 +2,7 @@
 
     <string name="app_name">DBUFR</string>
     <string name="title_activity_detail">Détails</string>
+    <string name="title_activity_about">A propos</string>
     <string name="action_share">Partager</string>
     <string name="action_refresh">Actualiser</string>
     <string name="action_settings">Paramètres</string>
@@ -30,4 +31,8 @@
         <item>360</item>
         <item>-1</item>
     </string-array>
+
+    <string name="pref_filtre">Filtres</string>
+    <string name="pref_filtre_periodes">Périodes</string>
+
 </resources>
