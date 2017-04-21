@@ -6,6 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_refresh">Refresh</string>
     <string name="title_activity_detail">Details</string>
+    <string name="title_activity_about">A propos</string>
     <string name="action_share">Share</string>
     <string name="dbufr_grade_separator" translatable="false">/</string>
     <string name="sync_account_type" translatable="false">davidsan.github.io/dbufr</string>
@@ -19,4 +20,10 @@
 
     <!-- Strings related to Notification preference -->
     <string name="pref_last_id_notification" translatable="false">last_id_notification</string>
+
+    <string name="TitreAbout">A propos !\n</string>
+    <string name="TextAbout">\n  <b>DBUFR</b> est une application gratuite éditée par David San, et modifiée par Margarido Julien.\n
+ \n  Cette application et son contenu sont protégés par le droit d\'auteur et les droits de propriété intellectuelle.\n
+ \n  Toute reproduction, imitation et/ou exploitation partielle ou totale de cette application sans l\'autorisation écrite par des propriétaires, est strictement prohibée.\n
+ \n<u>Contact et infos</u> : \n\njulien.magarido@gmail.com\nhttps://github.com/JulienMrgrd/DBUFR.git</string>
 </resources>

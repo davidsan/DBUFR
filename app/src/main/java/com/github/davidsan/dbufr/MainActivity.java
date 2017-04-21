@@ -40,6 +40,10 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
+        } else if (id == R.id.action_about) {
+            Intent intentAbout = new Intent(this, AboutActivity.class);
+            startActivity(intentAbout);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
