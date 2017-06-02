@@ -19,4 +19,11 @@
 
     <!-- Strings related to Notification preference -->
     <string name="pref_last_id_notification" translatable="false">last_id_notification</string>
+
+    <string name="toast_syncing">Syncing</string>
+    <string name="toast_syncing_ellipsis">Syncing...</string>
+    <string name="toast_sync_complete">Sync complete.</string>
+    <string name="toast_please_sync_first">Syncing required before filtering</string>
+
+
 </resources>

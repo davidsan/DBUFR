@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="white">#FFFFFF</color>
     <color name="indigo_50">#E7E9F5</color>
     <color name="indigo_100">#C4C9E8</color>
     <color name="indigo_300">#7885CA</color>
@@ -7,5 +8,6 @@
     <color name="indigo_600">#3848AA</color>
     <color name="text_normal">#4C4C4C</color>
     <color name="text_date">#989898</color>
-    <color name="background_white">#fafafa</color>
+    <color name="background_white">#FAFAFA</color>
+    <color name="background_gray">#F5F5F5</color>
 </resources>

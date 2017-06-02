@@ -22,6 +22,16 @@
         android:singleLine="true"
         android:maxLines="1" />
 
+    <CheckBoxPreference
+        android:key="@string/pref_filtre_key"
+        android:enabled="true"
+        android:title="@string/pref_filtre" />
+
+    <MultiSelectListPreference
+        android:key="@string/pref_filtre_periode_key"
+        android:dependency="@string/pref_filtre_key"
+        android:title="@string/pref_filtre_periode" />
+
 
 
 </PreferenceScreen>

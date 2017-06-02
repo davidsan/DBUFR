@@ -11,16 +11,22 @@
     <string name="pref_summary_student_password">Entrez votre mot de passe</string>
     <string name="pref_title_student_id">Numéro étudiant</string>
     <string name="pref_title_student_password">Mot de passe</string>
+    <string name="pref_filtre">Filtre</string>
+    <string name="pref_filtre_periode">Semestre</string>
     <string name="pref_title_sync_frequency">Fréquence de synchronisation</string>
     <string name="pref_title_system_sync_settings">Paramètres de synchronisation système</string>
     <string name="title_activity_settings">Paramètres</string>
+    <string name="toast_syncing">Synchronisation en cours</string>
+    <string name="toast_syncing_ellipsis">Synchronisation en cours...</string>
+    <string name="toast_sync_complete">Synchronisation terminée.</string>
+    <string name="toast_please_sync_first">Synchonisation nécessaire avant de pouvoir filtrer</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
         <item>30 minutes</item>
         <item>1 heure</item>
         <item>3 heures</item>
         <item>6 heures</item>
-        <item>Never</item>
+        <item>Jamais</item>
     </string-array>
     <string-array name="pref_sync_frequency_values">
         <item>15</item>

@@ -15,6 +15,10 @@
     <string name="pref_student_password_key" translatable="false">pref_student_password</string>
     <string name="pref_student_password_default" translatable="false"></string>
 
+    <string name="pref_filtre_key" translatable="false">pref_filtre_key</string>
+    <string name="pref_filtre">Filter</string>
+    <string name="pref_filtre_periode_key" translatable="false">pref_filtre_periode_key</string>
+    <string name="pref_filtre_periode">Semester</string>
 
     <!-- Example settings for Data & Sync -->
     <string name="pref_header_data_sync">Data &amp; sync</string>

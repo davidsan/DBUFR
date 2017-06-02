@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat">
         <item name="android:actionBarStyle">@style/ActionBar.Solid.Dbufr</item>
     </style>
 
@@ -16,7 +16,7 @@
     </style>
 
     <!-- Main activity action bar style -->
-    <style name="ActionBar.Solid.Dbufr.NoTitle" parent="ActionBar.Solid.Dbufr">
+    <style name="ActionBar.Solid.Dbufr.NoTitle" parent="@style/ActionBar.Solid.Dbufr">
         <!--<item name="android:displayOptions">useLogo|showHome</item>-->
         <!--<item name="android:logo">@drawable/ic_logo</item>-->
     </style>

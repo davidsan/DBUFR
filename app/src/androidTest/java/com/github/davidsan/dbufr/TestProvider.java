@@ -63,7 +63,7 @@ public class TestProvider extends AndroidTestCase {
 
     String testStudent = "3000211";
     type = mContext.getContentResolver().getType(
-        GradesEntry.buildGradesStudent(testStudent));
+        GradesEntry.buildGradesStudentId(testStudent));
     assertEquals(GradesEntry.CONTENT_TYPE, type);
 
     type = mContext.getContentResolver().getType(CourseEntry.CONTENT_URI);

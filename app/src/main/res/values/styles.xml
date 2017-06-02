@@ -1,25 +1,27 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="actionBarStyle">@style/ActionBar.Solid.Dbufr</item>
+    <style name="AppTheme" parent="Theme.AppCompat">
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Dbufr</item>
+        <item name="android:actionOverflowButtonStyle">@android:style/Widget.Holo.ActionButton.Overflow</item>
+        <item name="android:actionButtonStyle">@android:style/Widget.Holo.ActionButton.Overflow</item>
     </style>
 
     <!-- ActionBar style -->
-    <style name="ActionBar.Solid.Dbufr"
-        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="background">@color/indigo_500</item>
+    <style name="ActionBar.Solid.Dbufr" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/indigo_500</item>
         <item name="android:icon">@drawable/ic_actionbar</item>
+        <item name="android:actionOverflowButtonStyle">@android:style/Widget.Holo.ActionButton.Overflow</item>
+        <item name="android:actionButtonStyle">@android:style/Widget.Holo.ActionButton.Overflow</item>
     </style>
 
     <!-- Main activity theme -->
     <style name="DbufrTheme" parent="AppTheme">
-        <item name="actionBarStyle">@style/ActionBar.Solid.Dbufr.NoTitle</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Dbufr.NoTitle</item>
     </style>
 
     <!-- Main activity action bar style -->
-    <style name="ActionBar.Solid.Dbufr.NoTitle"
-        parent="@style/ActionBar.Solid.Dbufr">
+    <style name="ActionBar.Solid.Dbufr.NoTitle" parent="@style/ActionBar.Solid.Dbufr">
         <!--<item name="displayOptions">useLogo|showHome</item>-->
         <!--<item name="logo">@drawable/ic_logo</item>-->
     </style>
